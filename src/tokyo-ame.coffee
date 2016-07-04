@@ -15,6 +15,7 @@
 #   tily <tidnlyam@gmail.com>
 
 cron = require('cron').CronJob
+require('dotenv').config()
 
 config =
   latitude: process.env.HUBOT_TOKYO_AME_LATITUDE

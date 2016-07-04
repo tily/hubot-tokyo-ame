@@ -18,7 +18,8 @@
 
   "dependencies": {
     "coffee-script": "~1.6",
-    "cron": ""
+    "cron": "",
+    "dotenv": ""
   },
 
   "devDependencies": {
