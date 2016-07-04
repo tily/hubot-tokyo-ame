@@ -39,11 +39,9 @@ config =
   ]
 
 module.exports = (robot) ->
-  robot.respond /rainfall/, ()->
+  robot.respond /tokyo-ame/, ()->
+    robot.brain.set("prev", 10)
     crawl(notify)
-
-  robot.respond /debug/, ()->
-    robot.brain.set("prev", 5)
 
   location = ()->
     config.around or "here (https://maps.google.com/?q=" + config.latitude + "," + config.longitude + "&z=19)"
