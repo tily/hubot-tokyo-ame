@@ -43,7 +43,7 @@ module.exports = (robot) ->
   robot.respond /debug/, ()->
     robot.brain.set("prev", 5)
 
-  locationURL = ()->
+  location = ()->
     config.around or "here (https://maps.google.com/?q=" + config.latitude + "," + config.longitude + "&z=19)"
 
   crawl = (callback)->
