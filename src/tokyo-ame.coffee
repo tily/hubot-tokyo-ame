@@ -8,6 +8,8 @@
 #   HUBOT_TOKYO_AME_LATITUDE
 #   HUBOT_TOKYO_AME_LONGITUDE
 #   HUBOT_TOKYO_AME_CHANNEL
+#   HUBOT_TOKYO_AME_AROUND
+#   HUBOT_TOKYO_AME_TO
 #   HUBOT_TOKYO_AME_SCHEDULE - defaults to "* */5 * * * *"
 #   HUBOT_TOKYO_AME_ENDPOINT - defaults to http://ame2.herouapp.com/intensity
 #
@@ -22,6 +24,7 @@ config =
   longitude: process.env.HUBOT_TOKYO_AME_LONGITUDE
   channel: process.env.HUBOT_TOKYO_AME_CHANNEL
   around: process.env.HUBOT_TOKYO_AME_AROUND
+  to: process.env.HUBOT_TOKYO_AME_TO || ""
   schedule: process.env.HUBOT_TOKYO_AME_SCHEDULE or "0 */5 * * * *"
   endpoint: process.env.HUBOT_TOKYO_AME_ENDPOINT or "http://ame2.herokuapp.com/intensity"
   descriptions: [
@@ -61,7 +64,7 @@ module.exports = (robot) ->
       prev_desc = config.descriptions[prev]
       curr_desc = config.descriptions[curr]
       message = "Rainfall intensity changed from " + prev_desc + " to " + curr_desc + " around " + location() + " at " + now() + "."
-      robot.send {user: {user: ""}, room: config.channel}, message
+      robot.send {user: {user: config.to}, room: config.channel}, message
     robot.brain.set("prev", curr)
 
   new cron config.schedule, (-> crawl(notify)), null, true, "Asia/Tokyo"
