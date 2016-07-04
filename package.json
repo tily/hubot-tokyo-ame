@@ -4,24 +4,23 @@
   "version": "0.0.5",
   "author": "tily <tidnlyam@gmail.com>",
   "license": "MIT",
-
-  "keywords": ["hubot","hubot-scripts"],
-
+  "keywords": [
+    "hubot",
+    "hubot-scripts"
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/hubot-scripts/hubot-tokyo-ame.git"
   },
-
   "bugs": {
     "url": "https://github.com/hubot-scripts/hubot-tokyo-ame/issues"
   },
-
   "dependencies": {
     "coffee-script": "~1.6",
     "cron": "",
-    "dotenv": ""
+    "dotenv": "",
+    "moment-timezone": "^0.5.4"
   },
-
   "devDependencies": {
     "mocha": "*",
     "chai": "*",
@@ -32,9 +31,7 @@
     "matchdep": "~0.1.2",
     "grunt-contrib-watch": "~0.5.3"
   },
-
   "main": "index.coffee",
-
   "scripts": {
     "test": "grunt test"
   }
