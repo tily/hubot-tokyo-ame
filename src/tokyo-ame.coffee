@@ -42,6 +42,12 @@ config =
   ]
 
 module.exports = (robot) ->
+  robot.logger.info "Loading hubot-tokyo-ame ..."
+
+  if config.latitude is null or config.longitude is null
+    robot.logger.error "HUBOT_TOKYO_AME_LATITUDE and HUBOT_TOKYO_AME_LONGITUDE should be specified. Skipped to load hubot-tokyo-ame"
+    return
+
   robot.respond /tokyo-ame/, ()->
     robot.brain.set("prev", 10)
     crawl(notify)
@@ -54,17 +60,26 @@ module.exports = (robot) ->
 
   crawl = (callback)->
     url = config.endpoint + '?latitude=' + config.latitude + '&longitude=' + config.longitude
+    robot.logger.info "Started to crawling for: " + url
     robot.http(url).get() (err, res, body) ->
       callback(body)
 
   notify = (body)->
     curr = body
     prev = robot.brain.get("prev")
+    robot.logger.info "Crawl done. Current intensity is " + curr + " and previous intensity is " + prev
+
     if prev != null and curr != prev
       prev_desc = config.descriptions[prev]
       curr_desc = config.descriptions[curr]
       message = "Rainfall intensity changed from " + prev_desc + " to " + curr_desc + " around " + location() + " at " + now() + "."
+      robot.logger.info "Sending message: " + message
       robot.send {user: {user: config.to}, room: config.channel}, message
+    else
+      robot.logger.info "Skipped to send message"
+
     robot.brain.set("prev", curr)
 
   new cron config.schedule, (-> crawl(notify)), null, true, "Asia/Tokyo"
+
+  robot.logger.info "Loaded hubot-tokyo-ame"
