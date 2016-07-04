@@ -19,5 +19,5 @@ Then add **hubot-tokyo-ame** to your `external-scripts.json`:
 ## Sample Interaction
 
 ```
-hubot>> @you Rainfall intensity changed from 猛烈な雨 to 降雨なし around 自宅 at Mon Jul 04 2016 15:51:57 GMT+0000 (UTC).
+hubot>> @you Rainfall intensity changed from 猛烈な雨 to 降雨なし around 自宅 at Mon Jul 04 2016 15:51:57 GMT+0000 (UTC)
 ```
