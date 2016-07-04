@@ -55,7 +55,6 @@ module.exports = (robot) ->
   notify = (body)->
     curr = body
     prev = robot.brain.get("prev")
-    robot.logger.info("notify", curr, prev)
     if prev != null and curr != prev
       prev_desc = config.descriptions[prev]
       curr_desc = config.descriptions[curr]
