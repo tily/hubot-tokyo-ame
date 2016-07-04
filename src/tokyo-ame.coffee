@@ -58,7 +58,7 @@ module.exports = (robot) ->
       prev_desc = config.descriptions[prev]
       curr_desc = config.descriptions[curr]
       message = "Rainfall intensity changed from " + prev_desc + " to " + curr_desc + " around " + location() + "."
-      robot.send {room: config.channel}, message
+      robot.send {user: {user: ""}, room: config.channel}, message
     robot.brain.set("prev", curr)
 
   new cron config.schedule, (-> crawl(notify)), null, true, "Asia/Tokyo"
