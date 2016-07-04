@@ -46,6 +46,9 @@ module.exports = (robot) ->
   location = ()->
     config.around or "here (https://maps.google.com/?q=" + config.latitude + "," + config.longitude + "&z=19)"
 
+  now = ()->
+    (new Date).toString()
+
   crawl = (callback)->
     url = config.endpoint + '?latitude=' + config.latitude + '&longitude=' + config.longitude
     robot.http(url).get() (err, res, body) ->
@@ -57,7 +60,7 @@ module.exports = (robot) ->
     if prev != null and curr != prev
       prev_desc = config.descriptions[prev]
       curr_desc = config.descriptions[curr]
-      message = "Rainfall intensity changed from " + prev_desc + " to " + curr_desc + " around " + location() + "."
+      message = "Rainfall intensity changed from " + prev_desc + " to " + curr_desc + " around " + location() + " at " + now() + "."
       robot.send {user: {user: ""}, room: config.channel}, message
     robot.brain.set("prev", curr)
 
