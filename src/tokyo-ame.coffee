@@ -36,6 +36,7 @@ config =
     "非常に激しい雨"
     "猛烈な雨"
   ]
+
 module.exports = (robot) ->
   robot.respond /rainfall/, ()->
     crawl(notify)
