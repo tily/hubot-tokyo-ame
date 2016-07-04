@@ -16,6 +16,7 @@
 # Author:
 #   tily <tidnlyam@gmail.com>
 
+moment = require('moment-timezone')
 cron = require('cron').CronJob
 require('dotenv').config()
 
@@ -56,7 +57,7 @@ module.exports = (robot) ->
     config.around or "here (https://maps.google.com/?q=" + config.latitude + "," + config.longitude + "&z=19)"
 
   now = ()->
-    (new Date).toString()
+    moment().tz("Asia/Tokyo").format()
 
   crawl = (callback)->
     url = config.endpoint + '?latitude=' + config.latitude + '&longitude=' + config.longitude
