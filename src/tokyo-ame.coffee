@@ -21,8 +21,8 @@ config =
   longitude: process.env.HUBOT_TOKYO_AME_LONGITUDE
   channel: process.env.HUBOT_TOKYO_AME_CHANNEL
   around: process.env.HUBOT_TOKYO_AME_AROUND
-  schedule: process.env.HUBOT_TOKYO_AME_SCHEDULE || "0 */5 * * * *"
-  endpoint: process.env.HUBOT_TOKYO_AME_ENDPOINT || "http://ame2.herokuapp.com/intensity"
+  schedule: process.env.HUBOT_TOKYO_AME_SCHEDULE or "0 */5 * * * *"
+  endpoint: process.env.HUBOT_TOKYO_AME_ENDPOINT or "http://ame2.herokuapp.com/intensity"
   descriptions: [
     "降雨なし"
     "より弱い雨"
