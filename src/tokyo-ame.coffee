@@ -16,7 +16,6 @@
 # Author:
 #   tily <tidnlyam@gmail.com>
 
-moment = require('moment-timezone')
 cron = require('cron').CronJob
 require('dotenv').config()
 
@@ -56,9 +55,6 @@ module.exports = (robot) ->
   location = ()->
     config.around or "here (https://maps.google.com/?q=" + config.latitude + "," + config.longitude + "&z=19)"
 
-  now = ()->
-    moment().tz("Asia/Tokyo").format()
-
   crawl = (callback)->
     url = config.endpoint + '?latitude=' + config.latitude + '&longitude=' + config.longitude
     robot.logger.info "Started to crawling for: " + url
@@ -73,7 +69,7 @@ module.exports = (robot) ->
     if prev != null and curr != prev
       prev_desc = config.descriptions[prev]
       curr_desc = config.descriptions[curr]
-      message = "Rainfall intensity changed from " + prev_desc + " to " + curr_desc + " around " + location() + " at " + now()
+      message = "Rainfall intensity changed from " + prev_desc + " to " + curr_desc + " around " + location()
       robot.logger.info "Sending message: " + message
       robot.send {user: {user: config.to}, room: config.channel}, message
     else

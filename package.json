@@ -18,8 +18,7 @@
   "dependencies": {
     "coffee-script": "~1.6",
     "cron": "",
-    "dotenv": "",
-    "moment-timezone": "^0.5.4"
+    "dotenv": ""
   },
   "devDependencies": {
     "mocha": "*",
