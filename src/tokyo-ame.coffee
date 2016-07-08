@@ -39,6 +39,7 @@ config =
     "より激しい雨"
     "非常に激しい雨"
     "猛烈な雨"
+    "デバッグ"
   ]
 
 module.exports = (robot) ->
@@ -49,7 +50,7 @@ module.exports = (robot) ->
     return
 
   robot.respond /tokyo-ame/, ()->
-    robot.brain.set("prev", 10)
+    robot.brain.set("prev", 11)
     crawl(notify)
 
   location = ()->
