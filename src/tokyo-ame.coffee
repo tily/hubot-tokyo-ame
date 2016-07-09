@@ -11,12 +11,12 @@
 #   HUBOT_TOKYO_AME_AROUND
 #   HUBOT_TOKYO_AME_TO
 #   HUBOT_TOKYO_AME_SCHEDULE - defaults to "* */5 * * * *"
-#   HUBOT_TOKYO_AME_ENDPOINT - defaults to http://ame2.herouapp.com/intensity
 #
 # Author:
 #   tily <tidnlyam@gmail.com>
 
 cron = require('cron').CronJob
+ame = require('tokyo-ame')
 require('dotenv').config()
 
 config =
@@ -26,7 +26,6 @@ config =
   around: process.env.HUBOT_TOKYO_AME_AROUND
   to: process.env.HUBOT_TOKYO_AME_TO || ""
   schedule: process.env.HUBOT_TOKYO_AME_SCHEDULE or "0 */5 * * * *"
-  endpoint: process.env.HUBOT_TOKYO_AME_ENDPOINT or "http://ame2.herokuapp.com/intensity"
   descriptions: [
     "降雨なし"
     "より弱い雨"
@@ -51,33 +50,29 @@ module.exports = (robot) ->
 
   robot.respond /tokyo-ame/, ()->
     robot.brain.set("prev", 11)
-    crawl(notify)
+    crawl()
 
   location = ()->
     config.around or "here (https://maps.google.com/?q=" + config.latitude + "," + config.longitude + "&z=19)"
 
-  crawl = (callback)->
-    url = config.endpoint + '?latitude=' + config.latitude + '&longitude=' + config.longitude
-    robot.logger.info "Started to crawling for: " + url
-    robot.http(url).get() (err, res, body) ->
-      callback(body)
+  crawl = ()->
+    robot.logger.info "Started to fetching intensity"
+    ame.getIntensity config, (intensity) ->
+      curr = intensity
+      prev = robot.brain.get("prev")
+      robot.logger.info "Fetch done. Current intensity is " + curr + " and previous intensity is " + prev
 
-  notify = (body)->
-    curr = body
-    prev = robot.brain.get("prev")
-    robot.logger.info "Crawl done. Current intensity is " + curr + " and previous intensity is " + prev
+      if prev != null and curr != prev
+        prev_desc = config.descriptions[prev]
+        curr_desc = config.descriptions[curr]
+        message = "Rainfall intensity changed from " + prev_desc + " to " + curr_desc + " around " + location()
+        robot.logger.info "Sending message: " + message
+        robot.send {user: {user: config.to}, room: config.channel}, message
+      else
+        robot.logger.info "Skipped to send message"
 
-    if prev != null and curr != prev
-      prev_desc = config.descriptions[prev]
-      curr_desc = config.descriptions[curr]
-      message = "Rainfall intensity changed from " + prev_desc + " to " + curr_desc + " around " + location()
-      robot.logger.info "Sending message: " + message
-      robot.send {user: {user: config.to}, room: config.channel}, message
-    else
-      robot.logger.info "Skipped to send message"
+      robot.brain.set("prev", curr)
 
-    robot.brain.set("prev", curr)
-
-  new cron config.schedule, (-> crawl(notify)), null, true, "Asia/Tokyo"
+  new cron config.schedule, (-> crawl()), null, true, "Asia/Tokyo"
 
   robot.logger.info "Loaded hubot-tokyo-ame"
