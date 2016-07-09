@@ -19,7 +19,8 @@
     "coffee-script": "~1.6",
     "cron": "",
     "dotenv": "",
-    "tokyo-ame": "0.0.1"
+    "tokyo-ame": "0.0.1",
+    "zwpad": "0.0.0"
   },
   "devDependencies": {
     "mocha": "*",
