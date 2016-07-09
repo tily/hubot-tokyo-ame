@@ -18,7 +18,8 @@
   "dependencies": {
     "coffee-script": "~1.6",
     "cron": "",
-    "dotenv": ""
+    "dotenv": "",
+    "tokyo-ame": "0.0.0"
   },
   "devDependencies": {
     "mocha": "*",
