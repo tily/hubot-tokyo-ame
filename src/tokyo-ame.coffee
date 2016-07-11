@@ -16,7 +16,6 @@
 #   tily <tidnlyam@gmail.com>
 
 cron = require('cron').CronJob
-zwpad = require('zwpad')
 ame = require('tokyo-ame')
 require('dotenv').config()
 
@@ -67,7 +66,6 @@ module.exports = (robot) ->
         prev_desc = config.descriptions[prev]
         curr_desc = config.descriptions[curr]
         message = "Rainfall intensity changed from " + prev_desc + " to " + curr_desc + " around " + location()
-        message = zwpad.pad(message, 140)
         robot.logger.info "Sending message: " + message
         robot.send {user: {user: config.to}, room: config.channel}, message
       else
